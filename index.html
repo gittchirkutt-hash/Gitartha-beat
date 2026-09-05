@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
+<title>GITARTHA BEATS 🎵 — Tap, Type, Play!</title>
+<meta name="description" content="GITARTHA BEATS - an original interactive musical character. Tap, click and type to make music!" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Background ambience layers (pure CSS, no external assets) -->
+  <div class="bg-glow bg-glow--a"></div>
+  <div class="bg-glow bg-glow--b"></div>
+  <div class="bg-grid"></div>
+
+  <div class="app">
+
+    <!-- ================= TOP BAR ================= -->
+    <header class="topbar glass">
+      <div class="brandmark">
+        <span class="brandmark__note">♪</span>
+        <h1 class="brandmark__title">GITARTHA <span>BEATS</span></h1>
+      </div>
+
+      <div class="topbar-controls">
+        <button id="muteBtn" class="icon-btn" title="Mute / Unmute" aria-label="Mute">
+          <span id="muteIcon">🔊</span>
+        </button>
+
+        <div class="volume-wrap" title="Volume">
+          <span class="volume-wrap__icon">🎚️</span>
+          <input type="range" id="volumeSlider" min="0" max="100" value="80" aria-label="Volume" />
+        </div>
+
+        <button id="fxToggle" class="icon-btn is-active" title="Toggle Visual Effects" aria-label="Toggle Effects">
+          <span>✨</span>
+        </button>
+
+        <button id="fullscreenBtn" class="icon-btn" title="Fullscreen" aria-label="Fullscreen">
+          <span>⛶</span>
+        </button>
+
+        <button id="resetBtn" class="icon-btn" title="Reset Everything" aria-label="Reset">
+          <span>↺</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- ================= STAGE ================= -->
+    <main class="stage-wrap">
+
+      <div class="combo-banner" id="comboBanner" aria-live="polite"></div>
+
+      <div class="stage glass" id="stage">
+        <div class="particles" id="particles"></div>
+
+        <!-- ============ ORIGINAL CHARACTER (SVG) ============ -->
+        <svg id="character" viewBox="0 0 400 380" xmlns="http://www.w3.org/2000/svg" aria-label="Gitartha, the beat character">
+          <defs>
+            <radialGradient id="bodyGrad" cx="50%" cy="30%" r="80%">
+              <stop offset="0%" stop-color="#a78bfa"/>
+              <stop offset="100%" stop-color="#6d5bd0"/>
+            </radialGradient>
+            <radialGradient id="headGrad" cx="50%" cy="35%" r="70%">
+              <stop offset="0%" stop-color="#c4b5fd"/>
+              <stop offset="100%" stop-color="#8b7cf6"/>
+            </radialGradient>
+            <linearGradient id="padGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#2b2540"/>
+              <stop offset="100%" stop-color="#171326"/>
+            </linearGradient>
+          </defs>
+
+          <!-- beat pad platform -->
+          <ellipse cx="200" cy="345" rx="150" ry="24" fill="url(#padGrad)" stroke="#3d3560" stroke-width="2"/>
+          <ellipse cx="200" cy="338" rx="130" ry="16" fill="#241f3b" opacity="0.7"/>
+
+          <!-- tail -->
+          <path id="tail" class="part part--tail" d="M300 300 Q 355 290 350 235 Q 348 210 325 215" fill="none" stroke="#6d5bd0" stroke-width="18" stroke-linecap="round"/>
+
+          <!-- body -->
+          <g id="bodyGroup" class="part part--body">
+            <ellipse cx="200" cy="270" rx="95" ry="72" fill="url(#bodyGrad)"/>
+            <ellipse cx="200" cy="292" rx="55" ry="34" fill="#fdf2ff" opacity="0.85"/>
+          </g>
+
+          <!-- LEFT PAW -->
+          <g id="leftPaw" class="part part--paw part--paw-left">
+            <ellipse cx="130" cy="300" rx="26" ry="20" fill="#8b7cf6"/>
+            <ellipse cx="130" cy="300" rx="19" ry="13" fill="#fdf2ff"/>
+          </g>
+
+          <!-- RIGHT PAW -->
+          <g id="rightPaw" class="part part--paw part--paw-right">
+            <ellipse cx="270" cy="300" rx="26" ry="20" fill="#8b7cf6"/>
+            <ellipse cx="270" cy="300" rx="19" ry="13" fill="#fdf2ff"/>
+          </g>
+
+          <!-- HEAD -->
+          <g id="headGroup" class="part part--head">
+            <!-- ears -->
+            <path d="M140 130 Q120 60 175 95 Z" fill="#8b7cf6"/>
+            <path d="M148 128 Q138 88 170 105 Z" fill="#fbcfe8"/>
+            <path d="M260 130 Q280 60 225 95 Z" fill="#8b7cf6"/>
+            <path d="M252 128 Q262 88 230 105 Z" fill="#fbcfe8"/>
+
+            <!-- head base -->
+            <circle cx="200" cy="165" r="88" fill="url(#headGrad)"/>
+
+            <!-- cheeks -->
+            <ellipse cx="140" cy="185" rx="16" ry="10" fill="#fda4d1" opacity="0.55" class="cheek"/>
+            <ellipse cx="260" cy="185" rx="16" ry="10" fill="#fda4d1" opacity="0.55" class="cheek"/>
+
+            <!-- eyes -->
+            <g id="eyeLeft" class="eye">
+              <ellipse cx="168" cy="155" rx="14" ry="16" fill="#221a3d"/>
+              <circle cx="172" cy="149" r="4" fill="#fff"/>
+              <rect id="lidLeft" class="lid" x="152" y="139" width="32" height="0" fill="#8b7cf6"/>
+            </g>
+            <g id="eyeRight" class="eye">
+              <ellipse cx="232" cy="155" rx="14" ry="16" fill="#221a3d"/>
+              <circle cx="236" cy="149" r="4" fill="#fff"/>
+              <rect id="lidRight" class="lid" x="216" y="139" width="32" height="0" fill="#8b7cf6"/>
+            </g>
+
+            <!-- muzzle / mouth -->
+            <g id="muzzle" transform="translate(200,190)">
+              <path d="M-10 0 Q0 8 10 0" stroke="#221a3d" stroke-width="3" fill="none" stroke-linecap="round"/>
+              <ellipse cx="0" cy="-6" rx="4" ry="3" fill="#221a3d"/>
+              <path id="mouth" class="mouth" d="M-14 6 Q0 6 14 6" stroke="#221a3d" stroke-width="3" fill="none" stroke-linecap="round"/>
+            </g>
+
+            <!-- whiskers -->
+            <g stroke="#e9e2ff" stroke-width="2" stroke-linecap="round" opacity="0.8">
+              <line x1="120" y1="175" x2="70" y2="165"/>
+              <line x1="120" y1="188" x2="68" y2="188"/>
+              <line x1="280" y1="175" x2="330" y2="165"/>
+              <line x1="280" y1="188" x2="332" y2="188"/>
+            </g>
+          </g>
+
+          <!-- sparkle burst for excited state -->
+          <g id="sparkles" class="sparkles" opacity="0">
+            <text x="90" y="90" class="sparkle">✦</text>
+            <text x="300" y="80" class="sparkle">✦</text>
+            <text x="330" y="180" class="sparkle">✧</text>
+            <text x="70" y="200" class="sparkle">✧</text>
+          </g>
+        </svg>
+      </div>
+
+      <!-- key currently played, floats above stage briefly -->
+      <div class="now-playing" id="nowPlaying"></div>
+    </main>
+
+    <!-- ================= LOOP RECORDER ================= -->
+    <section class="recorder glass">
+      <div class="recorder__title">🎛️ Loop Studio</div>
+      <div class="recorder__controls">
+        <button id="recBtn" class="rec-btn rec-btn--record">⏺ Record</button>
+        <button id="stopBtn" class="rec-btn">⏹ Stop</button>
+        <button id="playBtn" class="rec-btn rec-btn--play">▶ Play</button>
+        <button id="clearBtn" class="rec-btn">🗑 Clear</button>
+      </div>
+      <div class="recorder__status" id="recStatus">Idle — press Record to capture a loop</div>
+    </section>
+
+    <!-- ================= INSTRUMENTS ================= -->
+    <section class="instruments">
+      <div class="instruments__group" id="percRow">
+        <div class="group-label">🥁 Percussion &amp; Voice</div>
+        <div class="btn-grid btn-grid--perc" id="percButtons"></div>
+      </div>
+
+      <div class="instruments__group">
+        <div class="group-label">🎹 Piano — keys 1–0</div>
+        <div class="btn-grid btn-grid--ten" id="pianoButtons"></div>
+      </div>
+
+      <div class="instruments__group">
+        <div class="group-label">🎶 Marimba — keys Q–P</div>
+        <div class="btn-grid btn-grid--ten" id="marimbaButtons"></div>
+      </div>
+    </section>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="footer">
+      <div class="footer__brand">GITARTHA BEATS</div>
+      <div class="footer__tag">"Made for fun 🎵"</div>
+    </footer>
+
+  </div>
+
+  <!-- tap-to-start overlay (audio needs a user gesture) -->
+  <div id="startOverlay" class="start-overlay">
+    <div class="start-overlay__card glass">
+      <div class="start-overlay__cat">🐾</div>
+      <h2>Tap anywhere to start the beat</h2>
+      <p>Your browser needs a click before it lets us make noise.</p>
+      <button id="startBtn" class="rec-btn rec-btn--play">Let's Jam ▶</button>
+    </div>
+  </div>
+
+<script src="script.js"></script>
+</body>
+</html>
